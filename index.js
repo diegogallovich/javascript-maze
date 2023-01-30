@@ -1,8 +1,12 @@
 const { Engine, Render, Runner, World, Bodies, MouseConstraint, Mouse } = Matter;
 
 // Variables
-const width = 800;
-const height = 600;
+const bodyElement = document.querySelector('body');
+bodyElement.style.height = '100vh';
+bodyElement.style.width = '100vw';
+
+let width = bodyElement.clientWidth;
+let height = bodyElement.clientHeight;
 
 const engine = Engine.create();
 const { world } = engine;
@@ -27,11 +31,22 @@ World.add(
 );
 
 // Walls
+const leftCenterPoint = [0, height / 2];
+const rightCenterPoint = [width, height / 2];
+const topCenterPoint = [width / 2, 0];
+const bottomCenterPoint = [width / 2, height];
+
+const wallThickness = 40;
+
+const wallConfig = {
+  isStatic: true,
+};
+
 const walls = [
-  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
-  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
-  Bodies.rectangle(800, 300, 40, 600, { isStatic: true }),
-  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
+  Bodies.rectangle(...topCenterPoint, width, wallThickness, wallConfig),
+  Bodies.rectangle(...bottomCenterPoint, width, wallThickness, wallConfig),
+  Bodies.rectangle(...rightCenterPoint, wallThickness, height, wallConfig),
+  Bodies.rectangle(...leftCenterPoint, wallThickness, height, wallConfig),
 ];
 
 World.add(world, walls);
